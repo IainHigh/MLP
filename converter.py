@@ -7,8 +7,10 @@ cleaned_json_output = 'cleaned_json_books.json'
 output_csv_file = 'goodreads_books.csv'
 
 def clean_json(original_json_file):
+    cleaned_json = []
     with open(original_json_file, 'r') as input_file:
-        cleaned_json = [input_file.readline().rstrip() + ',' + '\n' for _ in input_file]
+        for line in input_file:
+            cleaned_json.append(line.rstrip() + ',' + '\n')
         
     cleaned_json[-2] = cleaned_json[-2][:-2]
     cleaned_json = cleaned_json[:-1]
