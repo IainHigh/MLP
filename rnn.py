@@ -86,7 +86,7 @@ class CommonLitReadabiltyDataset(Dataset):
 
 
 # PyTorch training loop
-def train_model_regr(model, epochs=10, lr=0.001):
+def train_model_regr(model, train_dl, val_dl, epochs=10, lr=0.001):
     parameters = filter(lambda p: p.requires_grad, model.parameters())
     optimizer = torch.optim.Adam(parameters, lr=lr)
     for i in range(epochs):
@@ -148,41 +148,41 @@ class LSTM_regr(torch.nn.Module) :
 # glove_embedding_vectors_pt_file = "../input/embeddings-glove-crawl-torch-cached/crawl-300d-2M.vec.pt"
 
 # We can load the vectors using our custom functions
-def load_glove_vectors(glove_file= glove_embedding_vectors_text_file):
-    """Load the glove word vectors"""
-    word_vectors = {}
-    with open(glove_file) as f:
-        for line in f:
-            split = line.split()
-            word_vectors[split[0]] = np.array([float(x) for x in split[1:]])
-    return word_vectors
+# def load_glove_vectors(glove_file= glove_embedding_vectors_text_file):
+#     """Load the glove word vectors"""
+#     word_vectors = {}
+#     with open(glove_file) as f:
+#         for line in f:
+#             split = line.split()
+#             word_vectors[split[0]] = np.array([float(x) for x in split[1:]])
+#     return word_vectors
 
-def get_emb_matrix(pretrained, word_counts, emb_size = 300):
-    """ Creates embedding matrix from word vectors"""
-    vocab_size = len(word_counts) + 2
-    vocab_to_idx = {}
-    vocab = ["", "UNK"]
-    W = np.zeros((vocab_size, emb_size), dtype="float32")
-    W[0] = np.zeros(emb_size, dtype='float32') # adding a vector for padding
-    W[1] = np.random.uniform(-0.25, 0.25, emb_size) # adding a vector for unknown words 
-    vocab_to_idx["UNK"] = 1
-    i = 2
-    for word in word_counts:
-        if word in word_vecs:
-            W[i] = word_vecs[word]
-        else:
-            W[i] = np.random.uniform(-0.25,0.25, emb_size)
-        vocab_to_idx[word] = i
-        vocab.append(word)
-        i += 1   
-    return W, np.array(vocab), vocab_to_idx
+# def get_emb_matrix(pretrained, word_counts, emb_size = 300):
+#     """ Creates embedding matrix from word vectors"""
+#     vocab_size = len(word_counts) + 2
+#     vocab_to_idx = {}
+#     vocab = ["", "UNK"]
+#     W = np.zeros((vocab_size, emb_size), dtype="float32")
+#     W[0] = np.zeros(emb_size, dtype='float32') # adding a vector for padding
+#     W[1] = np.random.uniform(-0.25, 0.25, emb_size) # adding a vector for unknown words 
+#     vocab_to_idx["UNK"] = 1
+#     i = 2
+#     for word in word_counts:
+#         if word in word_vecs:
+#             W[i] = word_vecs[word]
+#         else:
+#             W[i] = np.random.uniform(-0.25,0.25, emb_size)
+#         vocab_to_idx[word] = i
+#         vocab.append(word)
+#         i += 1   
+#     return W, np.array(vocab), vocab_to_idx
 
-word_vecs = load_glove_vectors()
-pretrained_weights, vocab, vocab2index = get_emb_matrix(word_vecs, counts)
-# Or we can do it directly 
-itos, stoi, pretrained_weights, embedding_dim = torch.load(glove_embedding_vectors_pt_file)
-vocab_size = pretrained_weights.size(0)
-pretrained_weights = pretrained_weights.numpy()
+# word_vecs = load_glove_vectors()
+# pretrained_weights, vocab, vocab2index = get_emb_matrix(word_vecs, counts)
+# # Or we can do it directly 
+# itos, stoi, pretrained_weights, embedding_dim = torch.load(glove_embedding_vectors_pt_file)
+# vocab_size = pretrained_weights.size(0)
+# pretrained_weights = pretrained_weights.numpy()
 
 
 #```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
@@ -291,9 +291,9 @@ def main():
         processed_train_df, processed_val_df, processed_test_df, words = preprocess_data(train_df, val_df, test_df, mod_books_df)
 
         # save processed dataframes 
-        processed_train_df.to_csv("./Datasets/processed_train_df_2.csv", indec)
-        processed_val_df.to_csv("./Datasets/processed_val_df_2.csv")
-        processed_test_df.to_csv("./Datasets/processed_test_df_2.csv")
+        processed_train_df.to_csv("./Datasets/processed_train_df_2.csv", index=False)
+        processed_val_df.to_csv("./Datasets/processed_val_df_2.csv", index=False)
+        processed_test_df.to_csv("./Datasets/processed_test_df_2.csv", index=False)
 
     # get training set
     X_train = list(processed_train_df['encoded'])
@@ -321,4 +321,4 @@ def main():
     val_dl = DataLoader(valid_ds, batch_size=batch_size)
 
     model =  LSTM_regr(vocab_size, embedding_dim, hidden_dim)
-    train_model_regr(model, epochs=30, lr=0.005)
+    train_model_regr(model, train_dl, val_dl, epochs=30, lr=0.005)
