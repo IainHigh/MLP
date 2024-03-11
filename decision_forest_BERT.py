@@ -8,15 +8,15 @@ import math
 import matplotlib.pyplot as plt
 
 import torch
-from sentence_transformers import SentenceTransformer, util
+#from sentence_transformers import SentenceTransformer, util
 
 pd.set_option('display.max_rows', 1000)
 pd.set_option('display.max_columns', 1000)
 pd.set_option('display.width', 1000)
 
-book_data_csv_file = "data/books_filtered_by_language_modified_desc.csv"
-train_data_csv_file = "data/train_interactions.csv"
-val_data_csv_file = "data/validate_interactions.csv"
+book_data_csv_file = "./Datasets/books_filtered_by_language_modified_desc.csv"
+train_data_csv_file = "./Datasets/train_interactions.csv"
+val_data_csv_file = "./Datasets/validate_interactions.csv"
 preprocessed = False # Set to True if the CSVs above have already been preprocessed by the function below
 bert_preprocessed = True  # Set to True if the BERT embeddings have already been generated and saved to the book data CSV
 
@@ -49,9 +49,9 @@ def preprocess_data(training_df, test_df):
     if not bert_preprocessed:
         print("Generating BERT embeddings...")
         
-        model = SentenceTransformer("all-MiniLM-L6-v2")
+        #model = SentenceTransformer("all-MiniLM-L6-v2")
 
-        model.max_seq_length = 512
+        #model.max_seq_length = 512
         
         all_embeddings = []
         descriptions = []
@@ -69,10 +69,10 @@ def preprocess_data(training_df, test_df):
         book_data['bert_embeddings'] = all_embeddings
 
         # save the book data to a csv
-        book_data.to_csv("data/books_filtered_by_language_modified_desc_bert.csv", index=False)
+        book_data.to_csv("./Datasets/books_filtered_by_language_modified_desc_bert.csv", index=False)
         
     if bert_preprocessed:
-        book_data = pd.read_csv("data/books_filtered_by_language_modified_desc_bert.csv")
+        book_data = pd.read_csv("./Datasets/books_filtered_by_language_modified_desc_bert.csv")
         
 
     # Merge the book data with the training and test data
@@ -224,8 +224,8 @@ def main():
     if not preprocessed:
         print("preprocessing")
         training_df, test_df = preprocess_data(training_df, test_df)
-        training_df.to_csv("data/train_interactions_preprocessed.csv", index=False)
-        test_df.to_csv("data/validate_interactions_preprocessed.csv", index=False)
+        training_df.to_csv("./Datasets/train_interactions_preprocessed.csv", index=False)
+        test_df.to_csv("./Datasets/validate_interactions_preprocessed.csv", index=False)
 
     # Calculate the true baseline
     true_baseline(training_df, test_df)
