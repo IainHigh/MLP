@@ -1,20 +1,30 @@
 # !/bin/sh
 # Grid Engine options (lines prefixed with #$)
-#$ -N rnn-lstm-1              
-#$ -cwd                  
-#$ -l h_rt=48:00:00 
-#$ -l h_vmem=1G
+#$ -N bert-1
+# runtime limit of 48 hrs
+#$ -l h_rt=48:00:00
+# set working directory to the directory of the MLP
+#$ -wd /exports/eddie/scratch/s1929142/MLP
+# set the output and error stream to the output directory:
+#$ -o /exports/eddie/scratch/s1929142/MLP/output
+#$ -e /exports/eddie/scratch/s1929142/MLP/output
+# request 80 GB system RAM per GPU
+#$ -l h_vmem=80G
 #  These options are:
 #  job name: -N
 #  use the current working directory: -cwd
 #  runtime limit of 5 minutes: -l h_rt
 #  memory limit of 1 Gbyte: -l h_vmem
+# request one GPU in the GPU queue:
+#$ -q gpu
+#$ -pe gpu-a100 1
+
 # Initialise the environment modules
 . /etc/profile.d/modules.sh
 module load cuda
 
 # Load Python
-module load python/3.4.3
+module load anaconda
 source activate mlp
 
 # Run the program
