@@ -1,5 +1,6 @@
 import random
 import torch
+import numpy as np
 
 def set_seed(seed=None, seed_torch=True):
   """

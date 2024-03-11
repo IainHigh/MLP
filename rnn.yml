@@ -1,0 +1,40 @@
+directory:
+# Preprocessing parameters
+preprocessing:
+  run: False  # set to true to to rerun preprocessing according to specification below
+  train_data_path:
+  val_data_path:
+  test_data_path:
+  
+modified_book_data_path:
+
+processed_train_data_path:
+processed_val_data_path:
+processed_test_data_path:
+
+batch_size:
+embedding_dim:
+hidden_dim:
+epochs: 
+learning_rate: 
+vocab_size:      # where to get it from if not running preprocessing??
+
+load_pretrained_weights: False
+pretrained_weights: # choose on eof ELMO, BERT or GloVe
+  - ELMO
+  - BERT
+  - GloVe_CommonCrawl_42B
+  - GloVe_CommonCrawl_840B
+  - GloVe_Twitter
+  - GloVe_Wiki_Giga
+
+
+
+model:  # choose one of LSTM or LSTM_attention
+  - LSTM
+  - LSTM_attention
+
+output_dir:
+
+
+

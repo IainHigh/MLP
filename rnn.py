@@ -55,16 +55,16 @@ nltk.download('wordnet')
 from utilities import set_seed, set_device
 from preprocessing import preprocess_data
 
-SEED = 42
-set_seed(seed=SEED)
-DEVICE = set_device()
+#SEED = 42
+#set_seed(seed=SEED)
+#DEVICE = set_device()
 
 preprocessed = False  # Set to True if the CSVs are already preprocessed
 
 # datasets paths
 train_csv_path = "./Datasets/train_interactions.csv"
-val_csv_path = "./Datasets/test_interactions.csv"
-test_csv_path = "./Datasets/validate_interactions.csv"
+val_csv_path = "./Datasets/validate_interactions.csv"
+test_csv_path = "./Datasets/test_interactions.csv"
 
 book_csv_path = "./Datasets/books_filtered_by_language.csv"
 mod_book_csv_path = "./Datasets/books_filtered_by_language_modified_desc.csv"
@@ -142,6 +142,7 @@ class LSTM_regr(torch.nn.Module) :
 
 #````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 # Load GloVe Vectors (pretrained model)
+#  https://nlp.stanford.edu/projects/glove/
 #````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
 
 # glove_embedding_vectors_text_file = "../input/embeddings-glove-crawl-torch-cached/crawl-300d-2M.vec"
@@ -278,47 +279,47 @@ class LSTM_regr(torch.nn.Module) :
 
 
 
-def main():
+# def main():
 
-    # get dataframes
-    train_df = pd.read_csv(train_csv_path)
-    test_df = pd.read_csv(test_csv_path)
-    val_df = pd.read_csv(val_csv_path)
-    mod_books_df = pd.read_csv(mod_book_csv_path)
+#     # get dataframes
+#     train_df = pd.read_csv(train_csv_path)
+#     test_df = pd.read_csv(test_csv_path)
+#     val_df = pd.read_csv(val_csv_path)
+#     mod_books_df = pd.read_csv(mod_book_csv_path)
 
-    if not preprocessed:
-        # preprocess data
-        processed_train_df, processed_val_df, processed_test_df, words = preprocess_data(train_df, val_df, test_df, mod_books_df)
+#     if not preprocessed:
+#         # preprocess data
+#         processed_train_df, processed_val_df, processed_test_df, words = preprocess_data(train_df, val_df, test_df, mod_books_df)
 
-        # save processed dataframes 
-        processed_train_df.to_csv("./Datasets/processed_train_df_2.csv", index=False)
-        processed_val_df.to_csv("./Datasets/processed_val_df_2.csv", index=False)
-        processed_test_df.to_csv("./Datasets/processed_test_df_2.csv", index=False)
+#         # save processed dataframes 
+#         processed_train_df.to_csv("./Datasets/processed_train_df_2.csv", index=False)
+#         processed_val_df.to_csv("./Datasets/processed_val_df_2.csv", index=False)
+#         processed_test_df.to_csv("./Datasets/processed_test_df_2.csv", index=False)
 
-    # get training set
-    X_train = list(processed_train_df['encoded'])
-    X_train_enc_len = list(processed_train_df['encoded_length'])
-    y_train = list(processed_train_df['time_to_start_seconds'])
+#     # get training set
+#     X_train = list(processed_train_df['encoded'])
+#     X_train_enc_len = list(processed_train_df['encoded_length'])
+#     y_train = list(processed_train_df['time_to_start_seconds'])
 
-    # get validation set
-    X_valid = list(processed_val_df['encoded'])
-    X_valid_enc_len = list(processed_val_df['encoded_length'])
-    y_valid = list(processed_val_df['time_to_start_seconds'])
+#     # get validation set
+#     X_valid = list(processed_val_df['encoded'])
+#     X_valid_enc_len = list(processed_val_df['encoded_length'])
+#     y_valid = list(processed_val_df['time_to_start_seconds'])
 
-    # get test set
-    X_test = list(processed_test_df['encoded'])
-    X_test_enc_len = list(processed_test_df['encoded_length'])
-    y_test = list(processed_test_df['time_to_start_seconds'])    
+#     # get test set
+#     X_test = list(processed_test_df['encoded'])
+#     X_test_enc_len = list(processed_test_df['encoded_length'])
+#     y_test = list(processed_test_df['time_to_start_seconds'])    
 
-    train_ds = CommonLitReadabiltyDataset(X_train, y_train, X_train_enc_len)
-    valid_ds = CommonLitReadabiltyDataset(X_valid, y_valid, X_valid_enc_len)
+#     train_ds = CommonLitReadabiltyDataset(X_train, y_train, X_train_enc_len)
+#     valid_ds = CommonLitReadabiltyDataset(X_valid, y_valid, X_valid_enc_len)
 
-    batch_size = 64
-    vocab_size = len(words) 
-    embedding_dim = 300
-    hidden_dim = 200
-    train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
-    val_dl = DataLoader(valid_ds, batch_size=batch_size)
+#     batch_size = 64
+#     vocab_size = len(words) 
+#     embedding_dim = 300
+#     hidden_dim = 200
+#     train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+#     val_dl = DataLoader(valid_ds, batch_size=batch_size)
 
-    model =  LSTM_regr(vocab_size, embedding_dim, hidden_dim)
-    train_model_regr(model, train_dl, val_dl, epochs=30, lr=0.005)
+#     model =  LSTM_regr(vocab_size, embedding_dim, hidden_dim)
+#     train_model_regr(model, train_dl, val_dl, epochs=30, lr=0.005)

@@ -47,9 +47,14 @@ nltk.download('wordnet')
 mod_book_csv_path = "./Datasets/books_filtered_by_language_modified_desc.csv"
 
 
-def preprocess_data(training_df, val_df, test_df, books_df):
+def preprocess_data(train_path, val_path, test_path, books_path):
 
     print("\n\nPreprocessing data...")
+
+    training_df = pd.read_csv(train_path)
+    val_df = pd.read_csv(val_path)
+    test_df = pd.read_csv(test_path)
+    
 
     # Calculate the time_to_start for each interaction
     training_df["time_to_start_seconds"] = pd.to_datetime(training_df["started_at"]) - pd.to_datetime(training_df["date_added"])
@@ -69,6 +74,7 @@ def preprocess_data(training_df, val_df, test_df, books_df):
     #book_data = pd.read_csv(mod_book_csv_path)
 
     # drop rows that have null in modified description column
+    books_df = pd.read_csv(books_path)
     books_df = books_df[books_df['modified_description'].notna()]
 
     # Tokenization
@@ -161,6 +167,8 @@ def preprocess_data(training_df, val_df, test_df, books_df):
     training_df = training_df.dropna()
     val_df = val_df.dropna()
     test_df = test_df.dropna()
+
+
 
     return training_df, val_df, test_df, words
 
