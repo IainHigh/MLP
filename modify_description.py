@@ -4,6 +4,7 @@ from nltk.corpus import stopwords
 from collections import defaultdict
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk import pos_tag
+from tqdm import tqdm
 
 
 def process_descriptions(tokens):
@@ -53,9 +54,12 @@ def add_modified_description(input_file, output_file):
         for books in reader:
             # Remove books with no description
             books = books.dropna(subset=["description"])
-            modified_description = books["description"].apply(word_tokenize)
-            modified_description = modified_description.apply(process_descriptions)
-            modified_description = modified_description.apply(lambda x: " ".join(x))
+            tqdm.pandas(desc="Tokenizing descriptions")
+            modified_description = books["description"].progress_apply(word_tokenize)
+            tqdm.pandas(desc="Processing descriptions")
+            modified_description = modified_description.progress_apply(process_descriptions)
+            tqdm.pandas(desc="Joining descriptions back together")
+            modified_description = modified_description.progress_apply(lambda x: " ".join(x))
             books["modified_description"] = modified_description
 
             books.to_csv(output_file, mode="a", index=False, header=False)
