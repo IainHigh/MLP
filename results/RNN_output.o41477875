@@ -1,0 +1,16 @@
+CUDA_VISIBLE_DEVICES: 
+2Random seed 42 has been set.
+GPU is enabled in this notebook.
+
+
+Preprocessing data...
+num_words before: 544854
+num_words after: 250227
+Preprocessing Finished
+Begin training
+Epoch 1 | Train RMSE 378.697 | Val RMSE 362.725
+Epoch 6 | Train RMSE 378.547 | Val RMSE 362.572
+Epoch 11 | Train RMSE 378.409 | Val RMSE 362.399
+Epoch 16 | Train RMSE 378.217 | Val RMSE 362.227
+Epoch 21 | Train RMSE 378.045 | Val RMSE 362.054
+Epoch 26 | Train RMSE 377.882 | Val RMSE 361.883

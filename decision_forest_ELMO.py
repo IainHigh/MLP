@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer
 from allennlp.commands.elmo import ElmoEmbedder
 import torch
 from tqdm import tqdm  # Import tqdm for progress bars
@@ -10,16 +11,16 @@ pd.set_option('display.max_rows', 1000)
 pd.set_option('display.max_columns', 1000)
 pd.set_option('display.width', 1000)
 
-book_data_csv_file = "/exports/eddie/scratch/s2062378/MLP_Dataset/books_filtered_by_language_modified_desc.csv"
-train_data_csv_file = "/exports/eddie/scratch/s2062378/MLP_Dataset/train_interactions.csv"
-val_data_csv_file = "/exports/eddie/scratch/s2062378/MLP_Dataset/validate_interactions.csv"
-preprocessed = False  # Set to True if the CSVs above have already been preprocessed by the function below
-elmo_preprocessed = False  # Set to True if the ELMO embeddings have already been generated and saved to the book data CSV
+root = "/exports/eddie/scratch/s2062378/MLP_Dataset/"
+book_data_csv_file = root + "books_filtered_by_language_modified_desc.csv"
+train_data_csv_file = root + "train_interactions_preprocessed.csv"
+val_data_csv_file = root + "validate_interactions_preprocessed.csv"
+preprocessed = True  # Set to True if the CSVs above have already been preprocessed by the function below
+
+use_tfidf = False  # Set to True if you want to use the tf-idf similarity as a feature
 
 def preprocess_data(training_df, test_df):
     
-    print("\n\nPreprocessing data...")
-
     # Calculate the time_to_start for each interaction
     training_df["time_to_start_seconds"] = pd.to_datetime(
         training_df["started_at"]
@@ -41,27 +42,25 @@ def preprocess_data(training_df, test_df):
 
     # Read the book data csv
     book_data = pd.read_csv(book_data_csv_file)
-    
-    if not elmo_preprocessed:
-        print("Generating ELMO embeddings...")
-        elmo = ElmoEmbedder(cuda_device = 0)  # Initialise Elmo
-        
-        all_embeddings = []
-    
-        # Process descriptions one by one
-        for description in tqdm(book_data['modified_description'].fillna(''), desc="Generating ELMO embeddings"):
-            with torch.no_grad():
-                tokens = description.split()  # Simple tokenization
-                vectors = elmo.embed_sentence(tokens)
-                # Average across layers and tokens to get a single vector
-                embedding = np.mean(np.mean(vectors, axis=0), axis=0)
-                all_embeddings.append(embedding)
-    
-        # Add embeddings as a new column in the DataFrame
-        book_data['elmo_embeddings'] = all_embeddings
 
-        # save the book data to a csv
-        book_data.to_csv("/exports/eddie/scratch/s2062378/MLP_Dataset/books_filtered_by_language_modified_desc_elmo.csv", index=False)
+    # Use a small subset of the book data for testing
+    # book_data = book_data.head(1000)
+
+    elmo = ElmoEmbedder(cuda_device = 0)  # Initialise Elmo
+    
+    all_embeddings = []
+
+    # Process descriptions one by one
+    for description in tqdm(book_data['modified_description'].fillna(''), desc="Generating ELMO embeddings"):
+        with torch.no_grad():
+            tokens = description.split()  # Simple tokenization
+            vectors = elmo.embed_sentence(tokens)
+            # Average across layers and tokens to get a single vector
+            embedding = np.mean(np.mean(vectors, axis=0), axis=0)
+            all_embeddings.append(embedding)
+
+    # Add embeddings as a new column in the DataFrame
+    book_data['elmo_embeddings'] = all_embeddings
 
     # Merge the book data with the training and test data
     training_df = training_df.merge(book_data, how="left", on="book_id")
@@ -78,18 +77,55 @@ def preprocess_data(training_df, test_df):
         if not user_book_indices:
             return 0
         
-        user_book_embeddings = np.array(book_data.loc[user_book_indices, 'elmo_embeddings'].tolist())
+        user_book_embeddings = np.array(book_data.loc[user_book_indices, 'elmo_embeddings'].tolist())     
+        
+        if np.isnan(book_embedding).any() or np.isnan(user_book_embeddings).any() or not user_book_embeddings.any():
+            return 0
+        
         cosine_similarities = cosine_similarity([book_embedding], user_book_embeddings)
         return np.mean(cosine_similarities)
-
-
+    
+    
+    
     # Calculate mean ELMO similarity for each user-book pair in training and test sets
     for df in [training_df, test_df]:
         # Get a list of books each user has read
         user_books = df.groupby('user_id')['book_id'].apply(list)
         # Apply mean_similarity function to each row
-        df['elmo_similarity'] = df.apply(lambda row: mean_similarity(row['book_id'], user_books.get(row['user_id'], [])), axis=1)
+        desc = "Calculating ELMO similarity for training set" if df is training_df else "Calculating ELMO similarity for test set"
+        tqdm.pandas(desc=desc)
+        df['elmo_similarity'] = df.progress_apply(lambda row: mean_similarity(row['book_id'], user_books.get(row['user_id'], [])), axis=1)
 
+    def mean_similarity_tfidf(book_id, user_read_books):
+        book_indices = book_data.index[book_data['book_id'] == book_id].tolist()
+        
+        # Check if book_indices is not empty before proceeding
+        if not book_indices:
+            return 0  # Return a default value if book_id is not found in book_data
+        
+        book_index = book_indices[0]  # Safe to access first element now
+        user_book_indices = book_data.index[book_data['book_id'].isin(user_read_books)].tolist()
+    
+        # Calculate cosine similarity and return mean
+        if not user_book_indices:
+            return 0  # Return 0 if user has no other books for comparison
+        cosine_similarities = cosine_similarity(tfidf_matrix[book_index:book_index+1], tfidf_matrix[user_book_indices])
+        return np.mean(cosine_similarities)
+
+    # Calculate the tf-idf similarity as well
+    if use_tfidf:
+        tfidf_vectorizer = TfidfVectorizer(max_features=10000, min_df=0.01, stop_words='english')
+        # Fit TF-IDF on the book descriptions
+        tfidf_matrix = tfidf_vectorizer.fit_transform(book_data['modified_description'].fillna(''))
+    
+        for df in [training_df, test_df]:
+            # Get a list of books each user has read
+            user_books = df.groupby('user_id')['book_id'].apply(list)
+            # Apply mean_similarity function to each row
+            desc = "Calculating tf-idf similarity for training set" if df is training_df else "Calculating tf-idf similarity for test set"
+            tqdm.pandas(desc=desc)
+            df['tfidf_similarity'] = df.progress_apply(lambda row: mean_similarity_tfidf(row['book_id'], user_books.get(row['user_id'], [])), axis=1)
+        
     # Convert the language code into an integer
     lang_map = {
         "eng": 0,
@@ -204,8 +240,10 @@ def main():
     if not preprocessed:
         training_df, test_df = preprocess_data(training_df, test_df)
         # Save the preprocessed data to csv
-        training_df.to_csv("/exports/eddie/scratch/s2062378/MLP/train_interactions_preprocessed.csv", index=False)
-        test_df.to_csv("/exports/eddie/scratch/s2062378/MLP/validate_interactions_preprocessed.csv", index=False)
+        train_path = root + "train_interactions_preprocessed.csv"
+        test_path = root + "validate_interactions_preprocessed.csv"
+        training_df.to_csv(train_path, index=False)
+        test_df.to_csv(test_path, index=False)
 
     # Calculate the true baseline
     true_baseline(training_df, test_df)
@@ -217,12 +255,9 @@ def main():
     print("Testing without elmo_similarity column")
     random_forest_baseline(training_df, test_df, cols_to_drop=["elmo_similarity"])
     
-    print("Testing without user_avg_time_to_start column")
-    random_forest_baseline(training_df, test_df, cols_to_drop=["user_avg_time_to_start"])
-    
-    print("Testing without num_pages column")
-    random_forest_baseline(training_df, test_df, cols_to_drop=["num_pages"])
-
+    if use_tfidf:
+        print("Testing without tf-idf column")
+        random_forest_baseline(training_df, test_df, cols_to_drop=["tfidf_similarity"])
 
 if __name__ == "__main__":
     main()
