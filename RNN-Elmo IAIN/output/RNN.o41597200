@@ -1,0 +1,32 @@
+NOTE: Model without description similarity - Slightly better performance - but no MAE to compare directly.
+
+CUDA_VISIBLE_DEVICES: 
+0Random seed 42 has been set.
+GPU is enabled in this notebook.
+
+
+Preprocessing data...
+num_words before: 544854
+num_words after: 250227
+Preprocessing Finished
+
+
+Begin training
+Epoch 0 | Train RMSE 378.544 | Val RMSE 368.150
+Epoch 10 | Train RMSE 370.605 | Val RMSE 360.214
+Epoch 20 | Train RMSE 363.449 | Val RMSE 353.067
+Epoch 30 | Train RMSE 357.065 | Val RMSE 346.736
+Epoch 40 | Train RMSE 351.511 | Val RMSE 341.243
+Epoch 50 | Train RMSE 346.767 | Val RMSE 336.587
+Epoch 60 | Train RMSE 342.823 | Val RMSE 332.762
+Epoch 70 | Train RMSE 339.665 | Val RMSE 329.736
+Epoch 80 | Train RMSE 337.233 | Val RMSE 327.432
+Epoch 90 | Train RMSE 335.435 | Val RMSE 325.775
+Epoch 100 | Train RMSE 334.171 | Val RMSE 324.658
+Epoch 110 | Train RMSE 333.363 | Val RMSE 323.973
+Epoch 120 | Train RMSE 332.870 | Val RMSE 323.598
+Epoch 130 | Train RMSE 332.591 | Val RMSE 323.415
+Epoch 140 | Train RMSE 332.452 | Val RMSE 323.346
+Epoch 150 | Train RMSE 332.391 | Val RMSE 323.331
+Epoch 160 | Train RMSE 332.354 | Val RMSE 323.337
+Epoch 170 | Train RMSE 332.345 | Val RMSE 323.348
