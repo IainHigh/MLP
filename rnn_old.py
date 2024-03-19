@@ -7,7 +7,7 @@
 import os
 import sys
 import math
-import nltk
+#import nltk
 import torch
 import random
 import string
@@ -38,19 +38,19 @@ import torch.optim as optim
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 
-from pytorch_pretrained_bert import BertTokenizer
-from pytorch_pretrained_bert import BertForMaskedLM
+# from pytorch_pretrained_bert import BertTokenizer
+# from pytorch_pretrained_bert import BertForMaskedLM
 
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from collections import defaultdict
-from nltk.stem.wordnet import WordNetLemmatizer
-from nltk import pos_tag
+# from nltk.tokenize import word_tokenize
+# from nltk.corpus import stopwords
+# from collections import defaultdict
+# from nltk.stem.wordnet import WordNetLemmatizer
+# from nltk import pos_tag
 
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
+# nltk.download('punkt')
+# nltk.download('stopwords')
+# nltk.download('averaged_perceptron_tagger')
+# nltk.download('wordnet')
 
 from utilities import set_seed, set_device
 from preprocessing import preprocess_data
