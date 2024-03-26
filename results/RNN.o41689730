@@ -1,3 +1,6 @@
+NOTE: Model with ELMO Embeddings - Using RMSE as loss function.
+
+
 CUDA_VISIBLE_DEVICES: 
 3,2Random seed 42 has been set.
 GPU is enabled in this notebook.
@@ -14,7 +17,7 @@ Vocab size: 250229
 Embedding dim: 300
 Hidden dim: 200
 Number of workers: 2
-Epochs: 150
+Epochs: 100
 Learning rate: 1.000
 
 
@@ -30,4 +33,8 @@ Epoch 70 | Train RMSE 339.674 | Train MAE 185.008 | Val RMSE 329.736 | Val MAE 1
 Epoch 80 | Train RMSE 337.236 | Train MAE 188.932 | Val RMSE 327.432 | Val MAE 185.140
 Epoch 90 | Train RMSE 335.435 | Train MAE 192.890 | Val RMSE 325.775 | Val MAE 189.186
 Epoch 100 | Train RMSE 334.173 | Train MAE 196.692 | Val RMSE 324.658 | Val MAE 193.067
-Epoch 110 | Train RMSE 333.362 | Train MAE 200.133 | Val RMSE 323.973 | Val MAE 196.580
+Training Finished
+
+
+Test RMSE: 326.281
+Test MAE: 196.928

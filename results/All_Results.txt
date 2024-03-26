@@ -1,0 +1,25 @@
+True Baseline:
+    True Baseline MAE: 207.87585819766662
+    True Baseline RMSE: 324.5957670389466
+
+Random Forest without description similarity:
+    Random Forest MAE: 197.82601733396868
+    Random Forest RMSE: 332.7768380910526
+
+Random Forest with tf-idf description similarity:
+    Random Forest MAE: 188.2204085320985
+    Random Forest RMSE: 307.0515871667321
+
+RNN without description similarity (RMSE loss):    
+    Test MAE: 276.220
+    Test RMSE: 324.965
+
+RNN with elmo embeddings and similarity (RMSE loss):
+    Test MAE: 196.928
+    Test RMSE: 326.281
+
+RNN with elmo embeddings and similarity (RMSE + MAE loss):
+    Test MAE: 185.112
+    Test RMSE: 319.755
+    
+Things to improve - could've trained the RNN models for longer. Issue with timing out on the compute cluster. The RMSE and MAE were still decreasing and so the models could've been improved further.

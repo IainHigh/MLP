@@ -17,7 +17,7 @@ SEED = 42
 set_seed(seed=SEED)
 DEVICE = set_device()
 
-preprocessed = True  # Set to True if the CSVs are already preprocessed
+preprocessed = False  # Set to True if the CSVs are already preprocessed
 
 # datasets paths
 train_csv_path = "/exports/eddie/scratch/s2062378/MLP_Dataset/train_interactions.csv"
@@ -35,12 +35,7 @@ class CommonLitReadabiltyDataset(Dataset):
         return len(self.y)
     
     def __getitem__(self, idx):
-        # Convert string representation of a list into an actual list
-        x_as_list = ast.literal_eval(self.X[idx])
-        # Convert list into a NumPy array
-        x_as_array = np.array(x_as_list, dtype=np.float32)
-        
-        return torch.from_numpy(x_as_array).float(), torch.tensor(self.y[idx], dtype=torch.float32), self.l[idx]
+        return torch.from_numpy(self.X[idx]), self.y[idx], self.l[idx]
 
     
 # LSTM regression model
@@ -207,8 +202,8 @@ def main():
     embedding_dim = 300
     hidden_dim = 200
     num_workers = 2
-    epochs = 200
-    lr = 1
+    epochs = 100
+    lr = 1.5
     
     # Print the arguments
     print("\n\nBatch size: %d" % batch_size)

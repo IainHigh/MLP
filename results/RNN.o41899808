@@ -1,0 +1,40 @@
+NOTE: Model with ELMO Embeddings - Final Model - Using MAE + RMSE as loss function
+
+
+CUDA_VISIBLE_DEVICES: 
+2,1Random seed 42 has been set.
+GPU is enabled in this notebook.
+
+
+Preprocessing data...
+num_words before: 544854
+num_words after: 250227
+Preprocessing Finished
+
+
+Batch size: 7000
+Vocab size: 250229
+Embedding dim: 300
+Hidden dim: 200
+Number of workers: 2
+Epochs: 100
+Learning rate: 1.000
+
+
+Begin training
+Epoch 0 | Train RMSE 378.562 | Train MAE 182.198 | Val RMSE 368.220 | Val MAE 177.356
+Epoch 10 | Train RMSE 369.866 | Train MAE 175.419 | Val RMSE 359.133 | Val MAE 170.689
+Epoch 20 | Train RMSE 361.991 | Train MAE 172.472 | Val RMSE 350.949 | Val MAE 167.703
+Epoch 30 | Train RMSE 354.923 | Train MAE 171.605 | Val RMSE 343.615 | Val MAE 166.807
+Epoch 40 | Train RMSE 348.701 | Train MAE 172.145 | Val RMSE 337.148 | Val MAE 167.315
+Epoch 50 | Train RMSE 343.299 | Train MAE 173.680 | Val RMSE 331.538 | Val MAE 168.803
+Epoch 60 | Train RMSE 338.709 | Train MAE 175.900 | Val RMSE 326.772 | Val MAE 170.963
+Epoch 70 | Train RMSE 334.919 | Train MAE 178.533 | Val RMSE 322.812 | Val MAE 173.514
+Epoch 80 | Train RMSE 331.840 | Train MAE 181.375 | Val RMSE 319.574 | Val MAE 176.253
+Epoch 90 | Train RMSE 329.397 | Train MAE 184.210 | Val RMSE 316.979 | Val MAE 178.970
+Epoch 100 | Train RMSE 327.490 | Train MAE 186.857 | Val RMSE 314.918 | Val MAE 181.483
+Training Finished
+
+
+Test RMSE: 319.755
+Test MAE: 185.112

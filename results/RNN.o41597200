@@ -28,5 +28,8 @@ Epoch 120 | Train RMSE 332.870 | Val RMSE 323.598
 Epoch 130 | Train RMSE 332.591 | Val RMSE 323.415
 Epoch 140 | Train RMSE 332.452 | Val RMSE 323.346
 Epoch 150 | Train RMSE 332.391 | Val RMSE 323.331
-Epoch 160 | Train RMSE 332.354 | Val RMSE 323.337
-Epoch 170 | Train RMSE 332.345 | Val RMSE 323.348
+Training Finished
+
+
+Test RMSE: 324.965
+Test MAE: 276.220
