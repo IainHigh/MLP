@@ -10,6 +10,10 @@ Random Forest with tf-idf description similarity:
     Random Forest MAE: 188.2204085320985
     Random Forest RMSE: 307.0515871667321
 
+Random Forest with ELMO:
+    Random Forest MAE: 187.54309369059132
+    Random Forest RMSE: 306.147183955115
+
 RNN without description similarity (RMSE loss):    
     Test MAE: 276.220
     Test RMSE: 324.965
