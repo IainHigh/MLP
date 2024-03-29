@@ -1,0 +1,38 @@
+CUDA_VISIBLE_DEVICES: 
+CUDA_VISIBLE_DEVICES: 3
+Random seed 42 has been set.
+GPU is enabled in this notebook.
+skipping preprocessing..
+getting train set
+getting validation set
+
+
+Batch size: 64
+Vocab size: 250229
+Embedding dim: 300
+Hidden dim: 200
+Number of workers: 2
+Epochs: 200
+Learning rate: 1.000
+
+
+Begin training
+Epoch 0 | Train RMSE 352.321 | Train MAE 174.371 | Val RMSE 303.608 | Val MAE 169.897
+Epoch 10 | Train RMSE 338.317 | Train MAE 176.924 | Val RMSE 291.127 | Val MAE 172.725
+Epoch 20 | Train RMSE 335.746 | Train MAE 178.471 | Val RMSE 289.200 | Val MAE 174.373
+Epoch 30 | Train RMSE 335.480 | Train MAE 178.164 | Val RMSE 288.840 | Val MAE 174.051
+Epoch 40 | Train RMSE 335.459 | Train MAE 178.341 | Val RMSE 288.849 | Val MAE 174.250
+Epoch 50 | Train RMSE 334.160 | Train MAE 179.253 | Val RMSE 287.873 | Val MAE 175.172
+Epoch 60 | Train RMSE 334.965 | Train MAE 178.679 | Val RMSE 288.457 | Val MAE 174.577
+Epoch 70 | Train RMSE 334.594 | Train MAE 179.222 | Val RMSE 288.288 | Val MAE 175.140
+Epoch 80 | Train RMSE 332.147 | Train MAE 180.931 | Val RMSE 286.508 | Val MAE 176.906
+Epoch 90 | Train RMSE 332.671 | Train MAE 180.323 | Val RMSE 286.806 | Val MAE 176.280
+Epoch 100 | Train RMSE 333.969 | Train MAE 179.237 | Val RMSE 287.714 | Val MAE 175.155
+Epoch 110 | Train RMSE 332.959 | Train MAE 180.047 | Val RMSE 287.101 | Val MAE 176.017
+Epoch 120 | Train RMSE 332.479 | Train MAE 180.526 | Val RMSE 286.683 | Val MAE 176.504
+Epoch 130 | Train RMSE 332.494 | Train MAE 180.418 | Val RMSE 286.642 | Val MAE 176.394
+Epoch 140 | Train RMSE 332.340 | Train MAE 180.659 | Val RMSE 286.673 | Val MAE 176.654
+Epoch 150 | Train RMSE 332.768 | Train MAE 180.522 | Val RMSE 286.928 | Val MAE 176.484
+Epoch 160 | Train RMSE 332.513 | Train MAE 180.371 | Val RMSE 286.733 | Val MAE 176.335
+Epoch 170 | Train RMSE 332.274 | Train MAE 180.696 | Val RMSE 286.519 | Val MAE 176.684
+Epoch 180 | Train RMSE 332.026 | Train MAE 180.752 | Val RMSE 286.433 | Val MAE 176.736

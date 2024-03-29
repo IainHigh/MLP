@@ -1,0 +1,94 @@
+CUDA_VISIBLE_DEVICES: 
+CUDA_VISIBLE_DEVICES: 2,3
+starting
+preprocessing
+
+
+Preprocessing data...
+True Baseline MAE: 207.87585819766662
+True Baseline RMSE: 324.5957670389466
+Testing with all columns
+
+
+Columns being used for the model:
+ Index(['time_to_start_seconds', 'language_code', 'num_pages', 'bert_similarity', 'user_avg_time_to_start'], dtype='object')
+
+
+Sample data:
+    time_to_start_seconds  language_code  num_pages  bert_similarity  user_avg_time_to_start
+0                     2.0            0.0      352.0         0.267505            4.366584e+07
+1              10846945.0            2.0      241.0         0.280043            4.366584e+07
+2               3656012.0            0.0      343.0         0.333656            4.366584e+07
+3               8397258.0            0.0      329.0         0.291985            4.366584e+07
+4                  2370.0            0.0      384.0         0.269858            4.366584e+07
+6               2265323.0            0.0      113.0         0.216190            4.366584e+07
+7               1644523.0            0.0      323.0         0.346703            4.366584e+07
+8               4690108.0            0.0      290.0         0.329010            4.366584e+07
+11               286504.0            0.0      399.0         0.311389            4.366584e+07
+12            140313991.0            0.0      110.0         0.351608            4.366584e+07
+Random Forest MAE: 187.56563455729244
+Random Forest RMSE: 306.17342185256655
+Testing without bert_similarity column
+
+
+Columns being used for the model:
+ Index(['time_to_start_seconds', 'language_code', 'num_pages', 'user_avg_time_to_start'], dtype='object')
+
+
+Sample data:
+    time_to_start_seconds  language_code  num_pages  user_avg_time_to_start
+0                     2.0            0.0      352.0            4.366584e+07
+1              10846945.0            2.0      241.0            4.366584e+07
+2               3656012.0            0.0      343.0            4.366584e+07
+3               8397258.0            0.0      329.0            4.366584e+07
+4                  2370.0            0.0      384.0            4.366584e+07
+6               2265323.0            0.0      113.0            4.366584e+07
+7               1644523.0            0.0      323.0            4.366584e+07
+8               4690108.0            0.0      290.0            4.366584e+07
+11               286504.0            0.0      399.0            4.366584e+07
+12            140313991.0            0.0      110.0            4.366584e+07
+Random Forest MAE: 197.92096251888773
+Random Forest RMSE: 332.83630108602733
+Testing without user_avg_time_to_start column
+
+
+Columns being used for the model:
+ Index(['time_to_start_seconds', 'language_code', 'num_pages', 'bert_similarity'], dtype='object')
+
+
+Sample data:
+    time_to_start_seconds  language_code  num_pages  bert_similarity
+0                     2.0            0.0      352.0         0.267505
+1              10846945.0            2.0      241.0         0.280043
+2               3656012.0            0.0      343.0         0.333656
+3               8397258.0            0.0      329.0         0.291985
+4                  2370.0            0.0      384.0         0.269858
+6               2265323.0            0.0      113.0         0.216190
+7               1644523.0            0.0      323.0         0.346703
+8               4690108.0            0.0      290.0         0.329010
+11               286504.0            0.0      399.0         0.311389
+12            140313991.0            0.0      110.0         0.351608
+Random Forest MAE: 231.0859085810265
+Random Forest RMSE: 377.27950725065585
+Testing without num_pages column
+
+
+Columns being used for the model:
+ Index(['time_to_start_seconds', 'language_code', 'bert_similarity', 'user_avg_time_to_start'], dtype='object')
+
+
+Sample data:
+    time_to_start_seconds  language_code  bert_similarity  user_avg_time_to_start
+0                     2.0            0.0         0.267505            4.366584e+07
+1              10846945.0            2.0         0.280043            4.366584e+07
+2               3656012.0            0.0         0.333656            4.366584e+07
+3               8397258.0            0.0         0.291985            4.366584e+07
+4                  2370.0            0.0         0.269858            4.366584e+07
+6               2265323.0            0.0         0.216190            4.366584e+07
+7               1644523.0            0.0         0.346703            4.366584e+07
+8               4690108.0            0.0         0.329010            4.366584e+07
+11               286504.0            0.0         0.311389            4.366584e+07
+12            140313991.0            0.0         0.351608            4.366584e+07
+Random Forest MAE: 192.82283028071822
+Random Forest RMSE: 317.7475623738199
+done
