@@ -21,6 +21,7 @@ University of Edinburgh Machine Learning Practical Coursework
     ├── test.ipynb # Basic dataset exploration - used to verify the dataset has been loaded correctly.
     ├── tf-idf.ipynb # A simple TF-IDF model in a Jupyter Notebook to debug.
     ├── tf-idf.py # Similar to above but in a python script.
+    ├── get_words.ipynb # Converts a list of words into a csv file.
 ├── Papers # Contains some of the original papers that were used as inspiration for the project.
     ├── Goodreads.pdf # Paper which first collated the dataset we are using.
     ├── Noah's BG Chapter.pdf
@@ -41,7 +42,7 @@ University of Edinburgh Machine Learning Practical Coursework
     ├── RNN.o41597200
     ├── RNN.o41689730
     ├── RNN.o41899808
-├── rnn # Contains the basic RNN model (no elmo embeddings
+├── rnn # Contains the basic RNN model and GloVe embeddings
     ├── preprocessing.py # Preprocesses the data for the RNN model.
     ├── rnn-mlp.yml # Specified environment for the RNN model (not used)
     ├── rnn.py # The RNN model
